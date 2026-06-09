@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, lazy, Suspense } from "react";
 import { 
   BrowserRouter as Router, 
   Routes, 
@@ -13,19 +13,21 @@ import SlaHeader from "./components/SlaHeader";
 import Navbar from "./components/Navbar";
 import NetworkStatus from "./components/NetworkStatus";
 import DowntimeCalculator from "./components/DowntimeCalculator";
-import SmartHands from "./components/SmartHands";
-import MspPackages from "./components/MspPackages";
-import RiskCalculator from "./components/RiskCalculator";
 import IndustriesList from "./components/IndustriesList";
 import SovereignCreed from "./components/SovereignCreed";
-import LegalPages from "./components/LegalPages";
-import Portal from "./components/Portal";
-import TeamPortal from "./components/TeamPortal";
 import CookieBanner from "./components/gdpr/CookieBanner";
 import { MsalProvider } from "@azure/msal-react";
 import { clientMsalInstance, teamMsalInstance } from "./lib/msalConfig";
 import { industriesConfig } from "./config/industries";
-import IndustryTemplate from "./components/industries/IndustryTemplate";
+
+// Code splitting via dynamic lazy imports to reduce chunk size below 500kB limit
+const SmartHands = lazy(() => import("./components/SmartHands"));
+const MspPackages = lazy(() => import("./components/MspPackages"));
+const RiskCalculator = lazy(() => import("./components/RiskCalculator"));
+const LegalPages = lazy(() => import("./components/LegalPages"));
+const Portal = lazy(() => import("./components/Portal"));
+const TeamPortal = lazy(() => import("./components/TeamPortal"));
+const IndustryTemplate = lazy(() => import("./components/industries/IndustryTemplate"));
 import {
   Shield, Check, Wrench, Play, BookOpen, Volume2, Globe, Clock, MessageSquare, Mail, Phone,
   MapPin, AlertCircle, Heart, Info, ArrowUpRight, CheckCircle2, ChevronRight, X, Calendar,
@@ -154,8 +156,16 @@ export default function App() {
           openContactModal={() => openContactWithDetails("Navbar Book Audit")}
         />
 
-        {/* Main Content Areas inside Router routes */}
-        <Routes>
+        {/* Main Content Areas inside Router routes with custom Suspense for chunks lazy loading */}
+        <Suspense fallback={
+          <div className="min-h-screen bg-[#0a0c12] flex items-center justify-center font-mono text-neutral-500 text-3xs tracking-widest uppercase">
+            <div className="flex flex-col items-center gap-4">
+              <div className="size-6 rounded-full border-2 border-t-transparent border-[#3affab] animate-spin" />
+              <span className="animate-pulse">[ INIT_SECURE_ROUTING_ENVELOPE ]</span>
+            </div>
+          </div>
+        }>
+          <Routes>
           
           {/* Landing / Home route */}
           <Route path="/" element={
@@ -418,6 +428,7 @@ export default function App() {
           } />
 
         </Routes>
+        </Suspense>
 
         {/* Global Footer element */}
         <footer id="global-footer" className="bg-[#0a0c12]/95 border-t border-white/5 py-12 px-4 sm:px-6 text-center font-mono text-neutral-500 text-[10px] tracking-wider uppercase select-none relative z-30">
