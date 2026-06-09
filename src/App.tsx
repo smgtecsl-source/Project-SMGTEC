@@ -16,6 +16,8 @@ import DowntimeCalculator from "./components/DowntimeCalculator";
 import IndustriesList from "./components/IndustriesList";
 import SovereignCreed from "./components/SovereignCreed";
 import CookieBanner from "./components/gdpr/CookieBanner";
+import WhatsAppButton from "./components/WhatsAppButton";
+import { WHATSAPP_CONFIG } from "./config/whatsapp";
 import { MsalProvider } from "@azure/msal-react";
 import { clientMsalInstance, teamMsalInstance } from "./lib/msalConfig";
 import { industriesConfig } from "./config/industries";
@@ -452,6 +454,9 @@ export default function App() {
         {/* Global cookie policy indicator consent banner */}
         <CookieBanner currentLocale={locale} />
 
+        {/* Global floating WhatsApp Support Badge */}
+        <WhatsAppButton currentLocale={locale} />
+
         {/* Unified Booking contact schedule drawer modal screen */}
         {isContactOpen && (
           <div id="contact-overlay-backdrop" className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
@@ -484,6 +489,17 @@ export default function App() {
                         ? "Sin duplicidad de datos. Elige tu fecha y hora in-situ para Barcelona o reunión de Teams."
                         : "Zero form redundancy. Lock a face-to-face slot at Equinix or secure a Teams link instantly."}
                     </p>
+                    <div className="mt-2.5 flex items-center justify-start">
+                      <a
+                        href={`https://wa.me/${WHATSAPP_CONFIG.phoneNumber}?text=${encodeURIComponent(WHATSAPP_CONFIG.messageText[locale])}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold border border-emerald-500/20 transition cursor-pointer select-none"
+                      >
+                        <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                        {locale === "es" ? "¿Prefieres WhatsApp urgente? Chatea ahora" : "Urgent? Text on WhatsApp instead"} &rarr;
+                      </a>
+                    </div>
                   </div>
 
                   {selectedPlanDetails && typeof selectedPlanDetails === "object" && (
