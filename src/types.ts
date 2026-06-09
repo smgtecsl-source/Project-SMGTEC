@@ -24,6 +24,16 @@ export interface IndustryConfig {
   recommendedPackage?: LocalizedString;
 }
 
+export interface PlanDetails {
+  score?: number;
+  gaps?: string[];
+  highUrgency?: boolean;
+  totalLoss?: number;
+  employees?: number;
+  downtimeHours?: number;
+}
+
 export type Locale = "es" | "en";
 
 export type ActivePage = "home" | "smarthands" | "servicios" | "calculadora" | "sobre-nosotros" | "legal";
+

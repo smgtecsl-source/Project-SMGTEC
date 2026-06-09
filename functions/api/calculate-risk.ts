@@ -1,20 +1,37 @@
+import { z } from "zod";
+
 interface Env {
   HUBSPOT_SERVICE_KEY: string;
   CLOUDFLARE_TURNSTILE_SECRET_KEY: string;
 }
 
+const calculateRiskSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  company: z.string().min(1, "Company is required"),
+  email: z.string().email("Invalid email address"),
+  score: z.number().min(0).max(100),
+  gaps: z.array(z.string()),
+  turnstileToken: z.string().optional().nullable(),
+  highUrgency: z.boolean().optional(),
+});
+
 export const onRequestPost = async (context: { request: any; env: Env }) => {
   try {
     const data: any = await context.request.json();
 
-    const { name, company, email, score, gaps, turnstileToken, highUrgency } = data;
-
-    if (!email || !name || !company) {
+    const validation = calculateRiskSchema.safeParse(data);
+    if (!validation.success) {
       return new Response(
-        JSON.stringify({ success: false, error: "Missing required fields (email, name, company)" }),
+        JSON.stringify({ 
+          success: false, 
+          error: "Malformed or missing request parameters.",
+          details: validation.error.format()
+        }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
+
+    const { name, company, email, score, gaps, turnstileToken, highUrgency } = validation.data;
 
     // 1. Verify Cloudflare Turnstile token if secret key is present
     if (context.env.CLOUDFLARE_TURNSTILE_SECRET_KEY && turnstileToken) {

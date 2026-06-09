@@ -1,4 +1,4 @@
-import { Configuration, PublicClientApplication } from "@azure/msal-browser";
+import { PublicClientApplication } from "@azure/msal-browser";
 
 // 1. CLIENT PORTAL CONFIGURATION (Multi-tenant)
 export const clientMsalConfig: any = {

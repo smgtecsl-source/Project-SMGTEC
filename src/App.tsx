@@ -8,7 +8,7 @@ import {
   useLocation, 
   Link 
 } from "react-router-dom";
-import { Locale } from "./types";
+import { Locale, PlanDetails } from "./types";
 import SlaHeader from "./components/SlaHeader";
 import Navbar from "./components/Navbar";
 import NetworkStatus from "./components/NetworkStatus";
@@ -51,7 +51,7 @@ export default function App() {
 
   // Modal Contact Overlay states
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [selectedPlanDetails, setSelectedPlanDetails] = useState<any>(null);
+  const [selectedPlanDetails, setSelectedPlanDetails] = useState<PlanDetails | string | null>(null);
   const [turnstileVerified, setTurnstileVerified] = useState(false);
   const [verifyingTurnstile, setVerifyingTurnstile] = useState(false);
 
@@ -100,8 +100,8 @@ export default function App() {
     }
   }, [isContactOpen]);
 
-  const openContactWithDetails = (details?: any) => {
-    setSelectedPlanDetails(details);
+  const openContactWithDetails = (details?: PlanDetails | string) => {
+    setSelectedPlanDetails(details || null);
     setIsContactOpen(true);
   };
 

@@ -2,10 +2,10 @@ import { Locale } from "../types";
 
 export const WHATSAPP_CONFIG = {
   // Pure digits-only Spanish format for absolute API links (no '+' or spaces)
-  phoneNumber: "34655729113",
+  phoneNumber: (import.meta as any).env?.VITE_WHATSAPP_PHONE || "34655729113",
   
   // Clean formatted representation for humans
-  displayName: "+34 655 72 91 13",
+  displayName: (import.meta as any).env?.VITE_WHATSAPP_DISPLAY_NAME || "+34 655 72 91 13",
 
   tooltipText: {
     es: {
