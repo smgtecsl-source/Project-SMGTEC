@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Readex+Pro:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Immersive UI Design Tokens */
+  --color-background: #0a0c12;
+  --color-surface: #151a24;
+  --color-primary: #3affab;
+  --color-accent-secure: #3affab;
+  --color-accent-warning: #70d6ff;
+  --color-text-primary: #ffffff;
+  --color-text-muted: #94a3b8;
+  --color-border: rgba(255, 255, 255, 0.1);
+
+  /* Typography */
+  --font-sans: "Readex Pro", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Custom Transitions & Keyframes */
+  --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Base Body Layout and Styles */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #0a0c12;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Immersive background decoration layer */
+.immersive-gradient-bg {
+  background-image: 
+    radial-gradient(circle at 20% 25%, rgba(58, 15, 16, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 80% 75%, rgba(112, 214, 255, 0.08) 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(58, 255, 171, 0.03) 0%, transparent 50%);
+}
+
+/* Pulsing neon utility */
+.glow-green {
+  box-shadow: 0 0 10px rgba(58, 255, 171, 0.4);
+}
+
+.glow-sky {
+  box-shadow: 0 0 10px rgba(112, 214, 255, 0.3);
+}
+
+/* Light Mode Overrides with high consistency */
+:root:where(.light, .light *) {
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-primary: #10b981;
+  --color-accent-secure: #059669;
+  --color-accent-warning: #0284c7;
+  --color-text-primary: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+}
+
+:root:where(.light, .light *) .immersive-gradient-bg {
+  background-image: 
+    radial-gradient(circle at 20% 25%, rgba(16, 185, 129, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 80% 75%, rgba(2, 132, 199, 0.05) 0%, transparent 55%);
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px #3affab);
+  }
+  50% {
+    opacity: .6;
+    transform: scale(0.95);
+    filter: drop-shadow(0 0 8px #3affab);
+  }
+}
+
+.hero-title {
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

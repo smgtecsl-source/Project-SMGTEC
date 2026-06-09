@@ -1,0 +1,6 @@
+{
+  "name": "SMGTEC SL",
+  "description": "Soporte IT Gestionado, Ciberseguridad SentinelOne y Smart Hands con SLA de despacho urgente menor de 2 horas en Barcelona.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
